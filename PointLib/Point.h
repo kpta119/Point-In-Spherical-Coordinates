@@ -2,17 +2,18 @@
 class Point
 {
 private:
-	double x;
-	double y;
-	double z;
+	double r;
+	double phi;
+	double theta;
 public:
-	Point(double x = 0.0, double y = 0.0, double z = 0.0);
+	Point(double r = 0.0, double phi = 0.0, double theta = 0.0);
 	~Point() = default;
 
-	double getX() const;
-	double getY() const;
-	double getZ() const;
+	double getR() const;
+	double getPhi() const;
+	double getTheta() const;
 
+	double* convertingSphericalToCartesianCoordinates() const noexcept;
 	Point operator+(Point const& p) const noexcept;
 	Point operator-(Point const& p) const noexcept;
 
