@@ -25,17 +25,29 @@ double Point::getZ() const
 
 Point Point::operator+(Point const& p) const noexcept
 {
-	double newX = x + p.getX();
-	double newY = y + p.getY();
-	double newZ = z + p.getZ();
-	return Point(newX, newY, newZ);
+	Point resPoint(*this);
+	resPoint += p;
+	return resPoint;
 }
 
 
 Point Point::operator-(Point const& p) const noexcept
 {
-	double newX = x - p.getX();
-	double newY = y - p.getY();
-	double newZ = z - p.getZ();
-	return Point(newX, newY, newZ);
+	Point resPoint(*this);
+	resPoint -= p;
+	return resPoint;
+}
+
+void Point::operator+=(Point const& p) noexcept
+{
+	x += p.getX();
+	y += p.getY();
+	z += p.getZ();
+}
+
+void Point::operator-=(Point const& p) noexcept
+{
+	x -= p.getX();
+	y -= p.getY();
+	z -= p.getZ();
 }

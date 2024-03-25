@@ -16,5 +16,8 @@ public:
 	Point operator+(Point const& p) const noexcept;
 	Point operator-(Point const& p) const noexcept;
 
+	void operator+=(Point const& p) noexcept;
+	void operator-=(Point const& p) noexcept;
+
 };
 
