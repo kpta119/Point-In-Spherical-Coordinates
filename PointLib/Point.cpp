@@ -9,22 +9,22 @@ Point::Point(double r, double phi, double theta)
 	{
 		throw std::invalid_argument("Radius (r) must be equal to or greater than 0.");
 	}
-	if (phi < 0 || phi > PI)
+	if (phi < 0 || phi > 180)
 	{
-		throw std::invalid_argument("Phi must be in the range [0, pi].");
+		throw std::invalid_argument("Phi must be in the range [0, 180].");
 	}
-	if (theta < 0 || theta >= 2 * PI)
+	if (theta < 0 || theta >= 360)
 	{
-		throw std::invalid_argument("theta must be in the range [0, 2*pi)");
+		throw std::invalid_argument("theta must be in the range [0, 360)");
 	}
 	
 	this->r = r;
-	this->phi = phi;
-	this->theta = theta;
+	this->phi = phi * (PI / 180);
+	this->theta = theta * (PI / 180);
 }
 
 double* Point::convertingSphericalToCartesianCoordinates() const noexcept
-{
+{	
 	double *cartesian = new double[3];
 	cartesian[0] = r * sin(theta) * cos(phi);
 	cartesian[1] = r * sin(theta) * sin(phi);
@@ -67,22 +67,26 @@ void Point::operator+=(Point const& p) noexcept
 {	
 	double* cartesian1 = convertingSphericalToCartesianCoordinates();
 	double* cartesian2 = p.convertingSphericalToCartesianCoordinates();
-	cartesian1[0] += cartesian2[0];
-	cartesian1[1] += cartesian2[1];
-	cartesian1[2] += cartesian2[2];
-	r = sqrt(pow(cartesian1[0], 2) + pow(cartesian1[1], 2) + pow(cartesian1[2], 2));
-	phi = acos(cartesian1[0] / r);
-	theta = acos(cartesian1[2] / r);
+	double newX = cartesian1[0] + cartesian2[0];
+	double newY = cartesian1[1] + cartesian2[1];
+	double newZ = cartesian1[2] + cartesian2[2];
+	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
+	phi = acos(newX / r);
+	theta = acos(newZ / r);
+	delete[] cartesian1; 
+	delete[] cartesian2;
 }
 
 void Point::operator-=(Point const& p) noexcept
 {
 	double* cartesian1 = convertingSphericalToCartesianCoordinates();
 	double* cartesian2 = p.convertingSphericalToCartesianCoordinates();
-	cartesian1[0] -= cartesian2[0];
-	cartesian1[1] -= cartesian2[1];
-	cartesian1[2] -= cartesian2[2];
-	r = sqrt(pow(cartesian1[0], 2) + pow(cartesian1[1], 2) + pow(cartesian1[2], 2));
-	phi = acos(cartesian1[0] / r);
-	theta = acos(cartesian1[2] / r);
+	double newX = cartesian1[0] - cartesian2[0];
+	double newY = cartesian1[1] - cartesian2[1];
+	double newZ = cartesian1[2] - cartesian2[2];
+	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
+	phi = acos(newX / r);
+	theta = acos(newZ / r);
+	delete[] cartesian1; 
+	delete[] cartesian2;
 }
