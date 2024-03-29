@@ -97,27 +97,30 @@ TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingCoordinateSystemOr
 {
 	Point p1(0, 0, 0);
 	double* cartesian = p1.convertingSphericalToCartesianCoordinates();
-	EXPECT_EQ(*cartesian, 0);
-	EXPECT_EQ(*(cartesian + 1), 0);
-	EXPECT_EQ(*(cartesian + 2), 0);
+	EXPECT_NEAR(cartesian[0], 0, 0.001);
+	EXPECT_NEAR(cartesian[1], 0, 0.001);
+	EXPECT_NEAR(cartesian[2], 0, 0.001);
+	delete[] cartesian;
 }
 
 TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointOnPositiveAxisZ)
 {
 	Point p1(1, 0, 0); // x,y,z=0,0,1
 	double* cartesian = p1.convertingSphericalToCartesianCoordinates();
-	EXPECT_NEAR(*cartesian, 0, 0.001);
-	EXPECT_NEAR(*(cartesian + 1), 0, 0.001);
-	EXPECT_NEAR(*(cartesian + 2), 1, 0.001);
+	EXPECT_NEAR(cartesian[0], 0, 0.001);
+	EXPECT_NEAR(cartesian[1], 0, 0.001);
+	EXPECT_NEAR(cartesian[2], 1, 0.001);
+	delete[] cartesian;
 }
 
 TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointOnPositiveAxisX)
 {
 	Point p1(1, 0, 90); // x,y,z=1,0,0
 	double* cartesian = p1.convertingSphericalToCartesianCoordinates();
-	EXPECT_NEAR(*cartesian, 1, 0.001);
-	EXPECT_NEAR(*(cartesian + 1), 0, 0.001);
-	EXPECT_NEAR(*(cartesian + 2), 0, 0.001);
+	EXPECT_NEAR(cartesian[0], 1, 0.001);
+	EXPECT_NEAR(cartesian[1], 0, 0.001);
+	EXPECT_NEAR(cartesian[2], 0, 0.001);
+	delete[] cartesian;
 }
 
 
@@ -125,7 +128,29 @@ TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointOnPositiveAxi
 {
 	Point p1(1, 90, 90); //x,y,z=0,1,0
 	double* cartesian = p1.convertingSphericalToCartesianCoordinates();
-	EXPECT_NEAR(*cartesian, 0, 0.001);
-	EXPECT_NEAR(*(cartesian + 1), 1, 0.001);
-	EXPECT_NEAR(*(cartesian + 2), 0, 0.001);
+	EXPECT_NEAR(cartesian[0], 0, 0.001);
+	EXPECT_NEAR(cartesian[1], 1, 0.001);
+	EXPECT_NEAR(cartesian[2], 0, 0.001);
+	delete[] cartesian;
 }
+
+
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointWithPositivesCartesian) {
+	Point point(1, 60.0, 45.0); 
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], 0.353553, 0.001); // Oczekiwana wartoœæ x
+	EXPECT_NEAR(cartesian[1], 0.612372, 0.001); // Oczekiwana wartoœæ y
+	EXPECT_NEAR(cartesian[2], 0.707107, 0.001); // Oczekiwana wartoœæ z
+	delete[] cartesian;
+}
+
+TEST(TestConvertingSphericalToCartesianCoordinates, Conversion2) {
+	Point point(2.5, 90.0, 30.0); 
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], 0, 0.001); // Oczekiwana wartoœæ x
+	EXPECT_NEAR(cartesian[1], 1.25, 0.001); // Oczekiwana wartoœæ y
+	EXPECT_NEAR(cartesian[2], 2.165, 0.001); // Oczekiwana wartoœæ z
+	delete[] cartesian;
+}
+
