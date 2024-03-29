@@ -9,13 +9,13 @@ Point::Point(double r, double phi, double theta)
 	{
 		throw std::invalid_argument("Radius (r) must be equal to or greater than 0.");
 	}
-	if (phi < 0 || phi > 180)
+	if (phi < 0 || phi >= 360)
 	{
-		throw std::invalid_argument("Phi must be in the range [0, 180].");
+		throw std::invalid_argument("Azimuth angle must be in the range [0, 360).");
 	}
-	if (theta < 0 || theta >= 360)
+	if (theta < 0 || theta > 180)
 	{
-		throw std::invalid_argument("theta must be in the range [0, 360)");
+		throw std::invalid_argument("Zenithal angle must be in the range[0, 180]");
 	}
 	
 	this->r = r;
