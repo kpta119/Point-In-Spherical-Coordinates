@@ -139,18 +139,18 @@ TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointOnPositiveAxi
 TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointWithPositivesCartesian) {
 	Point point(1, 60.0, 45.0); 
 	double* cartesian = point.convertingSphericalToCartesianCoordinates();
-	EXPECT_NEAR(cartesian[0], 0.353553, 0.001); // Oczekiwana wartoœæ x
-	EXPECT_NEAR(cartesian[1], 0.612372, 0.001); // Oczekiwana wartoœæ y
-	EXPECT_NEAR(cartesian[2], 0.707107, 0.001); // Oczekiwana wartoœæ z
+	EXPECT_NEAR(cartesian[0], 0.353553, 0.001); 
+	EXPECT_NEAR(cartesian[1], 0.612372, 0.001); 
+	EXPECT_NEAR(cartesian[2], 0.707107, 0.001); 
 	delete[] cartesian;
 }
 
 TEST(TestConvertingSphericalToCartesianCoordinates, Conversion2) {
 	Point point(2.5, 90.0, 30.0); 
 	double* cartesian = point.convertingSphericalToCartesianCoordinates();
-	EXPECT_NEAR(cartesian[0], 0, 0.001); // Oczekiwana wartoœæ x
-	EXPECT_NEAR(cartesian[1], 1.25, 0.001); // Oczekiwana wartoœæ y
-	EXPECT_NEAR(cartesian[2], 2.165, 0.001); // Oczekiwana wartoœæ z
+	EXPECT_NEAR(cartesian[0], 0, 0.001); 
+	EXPECT_NEAR(cartesian[1], 1.25, 0.001); 
+	EXPECT_NEAR(cartesian[2], 2.165, 0.001); 
 	delete[] cartesian;
 }
 
