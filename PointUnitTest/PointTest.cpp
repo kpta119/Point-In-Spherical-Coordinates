@@ -262,3 +262,63 @@ TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInEighthOctan
 	EXPECT_NEAR(cartesian[2], -0.5, 0.01);
 	delete[] cartesian;
 }
+
+TEST(TestPointAddition, AddAndAssignOperatorDefaultPoints)
+{
+	Point p1;
+	Point p2;
+	p1 += p2;
+	EXPECT_NEAR(0, p1.getR(), 0.01);
+	EXPECT_NEAR(0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorTheSamePointsOnAxialPlaneXY)
+{
+	Point p1(1, 45, 90);
+	Point p2(1, 45, 90);
+	p1 += p2;
+	EXPECT_NEAR(2, p1.getR(), 0.01);
+	EXPECT_NEAR(PI/4, p1.getPhi(), 0.01);
+	EXPECT_NEAR(PI/2, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorPointsOnAxialPlaneXY)
+{
+	Point p1(1, 30, 90);
+	Point p2(1, 45, 90);
+	p1 += p2;
+	EXPECT_NEAR(1.98, p1.getR(), 0.01);
+	EXPECT_NEAR(37.5 * PI/180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(PI / 2, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorPointsOnAxialPlaneXYOnePointIsDefault)
+{
+	Point p1;
+	Point p2(1, 45, 90);
+	p1 += p2;
+	EXPECT_NEAR(1, p1.getR(), 0.01);
+	EXPECT_NEAR(PI / 4, p1.getPhi(), 0.01);
+	EXPECT_NEAR(PI / 2, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorPointsInDifferentOctants)
+{
+	Point p1(1, 300, 60);
+	Point p2(1, 45, 90);
+	p1 += p2;
+	EXPECT_NEAR(1.245, p1.getR(), 0.01);
+	EXPECT_NEAR(357.845*PI/180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(66.3349*PI/180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorResultPointsOnAxialPlaneXY)
+{
+	Point p1(1.73, 45, 54.74); // 1,1,1
+	Point p2(2.45,63.43,155.91); // 1,2,-1
+	p1 += p2; // 2,3,0
+	EXPECT_NEAR(3.61, p1.getR(), 0.01);
+	EXPECT_NEAR(56.31 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(0, p1.getTheta(), 0.01);
+}
