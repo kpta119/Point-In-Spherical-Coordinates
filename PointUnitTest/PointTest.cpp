@@ -145,12 +145,38 @@ TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointWithPositives
 	delete[] cartesian;
 }
 
-TEST(TestConvertingSphericalToCartesianCoordinates, Conversion2) {
-	Point point(2.5, 90.0, 30.0); 
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointXEqualToZero) {
+	Point point(2.5, 90.0, 30.0);
 	double* cartesian = point.convertingSphericalToCartesianCoordinates();
-	EXPECT_NEAR(cartesian[0], 0, 0.001); 
-	EXPECT_NEAR(cartesian[1], 1.25, 0.001); 
-	EXPECT_NEAR(cartesian[2], 2.165, 0.001); 
+	EXPECT_NEAR(cartesian[0], 0, 0.001);
+	EXPECT_NEAR(cartesian[1], 1.25, 0.001);
+	EXPECT_NEAR(cartesian[2], 2.165, 0.001);
 	delete[] cartesian;
 }
 
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointOnNegativeAxisX) {
+	Point point(1, 180.0, 90.0);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], -1, 0.001);
+	EXPECT_NEAR(cartesian[1], 0, 0.001);
+	EXPECT_NEAR(cartesian[2], 0, 0.001);
+	delete[] cartesian;
+}
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointOnNegativeAxisY) {
+	Point point(1, 270.0, 90.0);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], 0, 0.001);
+	EXPECT_NEAR(cartesian[1], -1, 0.001);
+	EXPECT_NEAR(cartesian[2], 0, 0.001);
+	delete[] cartesian;
+}
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointOnNegativeAxisZ) {
+	Point point(1, 0, 180);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], 0, 0.001);
+	EXPECT_NEAR(cartesian[1], 0, 0.001);
+	EXPECT_NEAR(cartesian[2], -1, 0.001);
+	delete[] cartesian;
+}
