@@ -1,12 +1,13 @@
 #pragma once
 #include <iostream>
+
 class Point
 {
 private:
 	double r;
 	double phi;
 	double theta;
-	int countAngleToPositiveAxisX(double x, double y) noexcept;
+	double countAngleToPositiveAxisX(double x, double y) noexcept;
 public:
 	Point(double r = 0.0, double phi = 0.0, double theta = 0.0);
 	~Point() = default;

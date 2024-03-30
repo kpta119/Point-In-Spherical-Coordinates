@@ -181,11 +181,84 @@ TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointOnNegativeAxi
 	delete[] cartesian;
 }
 
-TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInSecondOctant) {
-	Point point(1, 0, 180);
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInFirstOctant) 
+{	//x>0 y>0 z>0
+	Point point(1.73, 45.0, 54.74);
 	double* cartesian = point.convertingSphericalToCartesianCoordinates();
-	EXPECT_NEAR(cartesian[0], 0, 0.001);
-	EXPECT_NEAR(cartesian[1], 0, 0.001);
-	EXPECT_NEAR(cartesian[2], -1, 0.001);
+	EXPECT_NEAR(cartesian[0], 1, 0.01);
+	EXPECT_NEAR(cartesian[1], 1, 0.01);
+	EXPECT_NEAR(cartesian[2], 1, 0.01);
+	delete[] cartesian;
+}
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInSecondOctant) 
+{	//x<0 y>0 z>0
+	Point point(3, 153.43, 48.19);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], -2, 0.01);
+	EXPECT_NEAR(cartesian[1], 1, 0.01);
+	EXPECT_NEAR(cartesian[2], 2, 0.01);
+	delete[] cartesian;
+}
+
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInThirdOctant) 
+{	// x<0 y<0 z>0
+	Point point(1, 225 ,45);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], -0.5, 0.01);
+	EXPECT_NEAR(cartesian[1], -0.5, 0.01);
+	EXPECT_NEAR(cartesian[2], 0.707, 0.01);
+	delete[] cartesian;
+}
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInFourthOctant) 
+{	//x>0 y<0 z<0
+	Point point(1, 315, 150);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], 0.353, 0.01);
+	EXPECT_NEAR(cartesian[1], -0.353, 0.01);
+	EXPECT_NEAR(cartesian[2], -0.866, 0.01);
+	delete[] cartesian;
+}
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInFifthOctant)
+{	//x>0 y<0 z>0
+	Point point(1, 300, 60);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], 0.433, 0.01);
+	EXPECT_NEAR(cartesian[1], -0.75, 0.01);
+	EXPECT_NEAR(cartesian[2], 0.5, 0.01);
+	delete[] cartesian;
+}
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInSixthOctant)
+{	//x<0 y<0 z>0
+	Point point(1, 210, 60);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], -0.75, 0.01);
+	EXPECT_NEAR(cartesian[1], -0.433, 0.01);
+	EXPECT_NEAR(cartesian[2], 0.5, 0.01);
+	delete[] cartesian;
+}
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInSeventhOctant)
+{	//x>0 y<0 z<0
+	Point point(1, 300, 120);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], 0.433, 0.01);
+	EXPECT_NEAR(cartesian[1], -0.75, 0.01);
+	EXPECT_NEAR(cartesian[2], -0.5, 0.01);
+	delete[] cartesian;
+}
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInEighthOctant)
+{	//x<0 y<0 z<0
+	Point point(1, 240, 120);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], -0.433, 0.01);
+	EXPECT_NEAR(cartesian[1], -0.75, 0.01);
+	EXPECT_NEAR(cartesian[2], -0.5, 0.01);
 	delete[] cartesian;
 }

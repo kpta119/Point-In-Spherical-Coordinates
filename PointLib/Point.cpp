@@ -23,10 +23,14 @@ Point::Point(double r, double phi, double theta)
 	this->theta = theta * (PI / 180);
 }
 
-int Point::countAngleToPositiveAxisX(double x, double y) noexcept
+double Point::countAngleToPositiveAxisX(double x, double y) noexcept
 {
 	double scalar_product = x * 1 + y * 0;
 	double length_of_vector = sqrt(x * x + y * y);
+	if (length_of_vector == 0)
+	{
+		return 0.0;
+	}
 	double angle_cosinus = scalar_product / length_of_vector;
 	double angle = 0;
 
@@ -94,7 +98,6 @@ void Point::operator+=(Point const& p) noexcept
 	double newZ = cartesian1[2] + cartesian2[2];
 	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
 	phi = countAngleToPositiveAxisX(newX, newY);
-
 	if (r != 0)
 	{
 		theta = acos(newZ / r);
@@ -115,25 +118,7 @@ void Point::operator-=(Point const& p) noexcept
 	double newY = cartesian1[1] - cartesian2[1];
 	double newZ = cartesian1[2] - cartesian2[2];
 	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
-	if (newX != 0)
-	{
-		phi = atan(newY / newX);
-	}
-	else
-	{
-		if (newY > 0)
-		{
-			phi = PI / 2;
-		}
-		else if (newY < 0)
-		{
-			phi = -PI / 2;
-		}
-		else
-		{
-			phi = 0.0;
-		}
-	}
+	phi = countAngleToPositiveAxisX(newX, newY);
 	if (r != 0)
 	{
 		theta = acos(newZ / r);
