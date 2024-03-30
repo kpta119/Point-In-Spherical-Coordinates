@@ -180,3 +180,12 @@ TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointOnNegativeAxi
 	EXPECT_NEAR(cartesian[2], -1, 0.001);
 	delete[] cartesian;
 }
+
+TEST(TestConvertingSphericalToCartesianCoordinates, ConvertingPointInSecondOctant) {
+	Point point(1, 0, 180);
+	double* cartesian = point.convertingSphericalToCartesianCoordinates();
+	EXPECT_NEAR(cartesian[0], 0, 0.001);
+	EXPECT_NEAR(cartesian[1], 0, 0.001);
+	EXPECT_NEAR(cartesian[2], -1, 0.001);
+	delete[] cartesian;
+}
