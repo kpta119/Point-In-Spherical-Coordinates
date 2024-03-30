@@ -316,9 +316,19 @@ TEST(TestPointAddition, AddAndAssignOperatorPointsInDifferentOctants)
 TEST(TestPointAddition, AddAndAssignOperatorResultPointsOnAxialPlaneXY)
 {
 	Point p1(1.73, 45, 54.74); // 1,1,1
-	Point p2(2.45,63.43,155.91); // 1,2,-1
+	Point p2(2.45,63.43,114.09); // 1,2,-1
 	p1 += p2; // 2,3,0
 	EXPECT_NEAR(3.61, p1.getR(), 0.01);
 	EXPECT_NEAR(56.31 * PI / 180.0, p1.getPhi(), 0.01);
-	EXPECT_NEAR(0, p1.getTheta(), 0.01);
+	EXPECT_NEAR(PI/2, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorPointsInAxisXAndAxisZ)
+{
+	Point p1(1,0,90); // 1,0,0
+	Point p2(1,0, 0); // 0,0,1
+	p1 += p2; // 1,0,1
+	EXPECT_NEAR(1.41, p1.getR(), 0.01);
+	EXPECT_NEAR(0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(PI / 4, p1.getTheta(), 0.01);
 }
