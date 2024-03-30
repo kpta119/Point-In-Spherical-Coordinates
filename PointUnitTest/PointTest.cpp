@@ -332,3 +332,83 @@ TEST(TestPointAddition, AddAndAssignOperatorPointsInAxisXAndAxisZ)
 	EXPECT_NEAR(0, p1.getPhi(), 0.01);
 	EXPECT_NEAR(PI / 4, p1.getTheta(), 0.01);
 }
+
+TEST(TestPointAddition, AddAndAssignOperatorPointsInAxisXAndAxisY)
+{
+	Point p1(1, 0, 90); // 1,0,0
+	Point p2(1,90,90); // 0,1,0
+	p1 += p2; // 1,1,0
+	EXPECT_NEAR(1.41, p1.getR(), 0.01);
+	EXPECT_NEAR(PI/4, p1.getPhi(), 0.01);
+	EXPECT_NEAR(PI/2, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorPointsInAxisYAndAxisZ)
+{
+	Point p1(1, 0, 0); // 0,0,1
+	Point p2(1, 90, 90); // 0,1,0
+	p1 += p2; // 1,1,0
+	EXPECT_NEAR(1.41, p1.getR(), 0.01);
+	EXPECT_NEAR(PI / 2, p1.getPhi(), 0.01);
+	EXPECT_NEAR(PI / 4, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorPointIntheNorthAndTheOtherInTheSouth)
+{
+	Point p1(2.45, 45, 35.26); // 1,1,2
+	Point p2(3.46, 225, 125.26); // -2,-2,-2
+	p1 += p2; // 1,1,0
+	EXPECT_NEAR(1.41, p1.getR(), 0.01);
+	EXPECT_NEAR(225 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(PI / 2, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorPointIntheEastAndTheOtherInTheWest)
+{
+	Point p1(2.45, 45, 35.26); // 1,1,2
+	Point p2(3.74, 243.43, 36.7); // -1,-2,3
+	p1 += p2; // 0,-1,5
+	EXPECT_NEAR(5.1, p1.getR(), 0.01);
+	EXPECT_NEAR(270 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(11.31 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorBothPointsOnAxisZ)
+{
+	Point p1(1,0,0); // 0,0,1
+	Point p2(2,0,0); // 0,0,2
+	p1 += p2; // 0,0,3
+	EXPECT_NEAR(3, p1.getR(), 0.01);
+	EXPECT_NEAR(0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorOnePointOnAxisXTheOtherPointInTheSouth)
+{
+	Point p1(1,0,90); // 1,0,0
+	Point p2(3.74, 243.43, 36.7); // -1,-2,3
+	p1 += p2; // 0,-2, 3
+	EXPECT_NEAR(3.61, p1.getR(), 0.01);
+	EXPECT_NEAR(270 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(33.69 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorOppositePoints)
+{
+	Point p1(1.73, 45, 54.74); // 1,1,1
+	Point p2(1.73, 225, 125.26); // -1,-1,-1
+	p1 += p2; // 0,0,0
+	EXPECT_NEAR(0, p1.getR(), 0.01);
+	EXPECT_NEAR(0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddAndAssignOperatorTheSamePointsOnAxialPlaneYZ)
+{
+	Point p1(1.41, 90, 45); // 0,1,1
+	Point p2(1.41, 90, 45); // 0,1,1
+	p1 += p2; // 0,2,2
+	EXPECT_NEAR(2.82, p1.getR(), 0.01);
+	EXPECT_NEAR(90*PI/180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(45*PI/180.0, p1.getTheta(), 0.01);
+}

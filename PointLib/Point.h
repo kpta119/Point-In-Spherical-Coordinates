@@ -20,9 +20,6 @@ public:
 	Point operator+(Point const& p) const noexcept;
 	Point operator-(Point const& p) const noexcept;
 
-	void operator+(const double vec[]);
-	void operator-(const double vec[]);
-
 	double distance() const noexcept;
 	double distance(Point const& p) const noexcept;
 

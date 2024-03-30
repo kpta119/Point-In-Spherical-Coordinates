@@ -27,7 +27,7 @@ double Point::countAngleToPositiveAxisX(double x, double y) noexcept
 {
 	double scalar_product = x * 1 + y * 0;
 	double length_of_vector = sqrt(x * x + y * y);
-	if (length_of_vector == 0)
+	if ( length_of_vector-0.0 <= 1e-6) 
 	{
 		return 0.0;
 	}
@@ -98,7 +98,7 @@ void Point::operator+=(Point const& p) noexcept
 	double newZ = cartesian1[2] + cartesian2[2];
 	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
 	phi = countAngleToPositiveAxisX(newX, newY);
-	if (r != 0)
+	if (r-0.0 >= 1e-6)
 	{
 		theta = acos(newZ / r);
 	}
@@ -119,7 +119,7 @@ void Point::operator-=(Point const& p) noexcept
 	double newZ = cartesian1[2] - cartesian2[2];
 	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
 	phi = countAngleToPositiveAxisX(newX, newY);
-	if (r != 0)
+	if (r - 0.0 >= 1e-6)
 	{
 		theta = acos(newZ / r);
 	}
