@@ -71,8 +71,33 @@ void Point::operator+=(Point const& p) noexcept
 	double newY = cartesian1[1] + cartesian2[1];
 	double newZ = cartesian1[2] + cartesian2[2];
 	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
-	phi = acos(newX / r);
-	theta = acos(newZ / r);
+	if (newX != 0)
+	{
+		phi = atan(newY / newX);
+	}
+	else
+	{
+		if (newY > 0)
+		{
+			phi = PI / 2;
+		}
+		else if (newY < 0)
+		{
+			phi = -PI / 2;
+		}
+		else
+		{
+			phi = 0.0;
+		}
+	}
+	if (r != 0)
+	{
+		theta = acos(newZ / r);
+	}
+	else
+	{
+		theta = 0.0;
+	}
 	delete[] cartesian1; 
 	delete[] cartesian2;
 }
@@ -85,8 +110,33 @@ void Point::operator-=(Point const& p) noexcept
 	double newY = cartesian1[1] - cartesian2[1];
 	double newZ = cartesian1[2] - cartesian2[2];
 	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
-	phi = acos(newX / r);
-	theta = acos(newZ / r);
+	if (newX != 0)
+	{
+		phi = atan(newY / newX);
+	}
+	else
+	{
+		if (newY > 0)
+		{
+			phi = PI / 2;
+		}
+		else if (newY < 0)
+		{
+			phi = -PI / 2;
+		}
+		else
+		{
+			phi = 0.0;
+		}
+	}
+	if (r != 0)
+	{
+		theta = acos(newZ / r);
+	}
+	else
+	{
+		theta = 0.0;
+	}
 	delete[] cartesian1; 
 	delete[] cartesian2;
 }
