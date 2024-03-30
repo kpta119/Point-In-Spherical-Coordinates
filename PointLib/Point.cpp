@@ -28,15 +28,15 @@ int Point::countAngleToPositiveAxisX(double x, double y) noexcept
 	double scalar_product = x * 1 + y * 0;
 	double length_of_vector = sqrt(x * x + y * y);
 	double angle_cosinus = scalar_product / length_of_vector;
-	double angle;
+	double angle = 0;
 
 	if ((x <= 0 && y <= 0) || (x >= 0 && y < 0))
 	{
-		double angle = 2*PI - acos(angle_cosinus);
+		angle = 2*PI - acos(angle_cosinus);
 	}
 	else
 	{
-		double angle = acos(angle_cosinus);
+		angle = acos(angle_cosinus);
 	}
 	return angle;
 
