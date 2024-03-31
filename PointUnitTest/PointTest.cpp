@@ -412,3 +412,123 @@ TEST(TestPointAddition, AddAndAssignOperatorTheSamePointsOnAxialPlaneYZ)
 	EXPECT_NEAR(90*PI/180.0, p1.getPhi(), 0.01);
 	EXPECT_NEAR(45*PI/180.0, p1.getTheta(), 0.01);
 }
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorTheSamePoints)
+{
+	Point p1(1.73, 45, 54.74); // 1,1,1
+	Point p2(1.73, 45, 54.74); // 1,1,1
+	p1 -= p2; // 0,0,0
+	EXPECT_NEAR(0, p1.getR(), 0.01);
+	EXPECT_NEAR(0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorOppositePoints)
+{	
+	Point p1(1.73, 45, 54.74); // 1,1,1
+	Point p2(1.73, 225, 125.36); // -1,-1,-1
+	p1 -= p2; // 2,2,2
+	EXPECT_NEAR(3.46, p1.getR(), 0.01);
+	EXPECT_NEAR(45 * PI/180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(54.74 * PI/180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorPointsOnAxialPlaneXY)
+{
+	Point p1(1.41, 45, 90); // 1,1,0
+	Point p2(2.24, 26.57, 90); // 2,1,0
+	p1 -= p2; // -1,0,0
+	EXPECT_NEAR(1, p1.getR(), 0.01);
+	EXPECT_NEAR(180 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(90 * PI /180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorPointsOnAxialPlaneXZ)
+{
+	Point p1(1.41, 0, 45); // 1,0,1
+	Point p2(3.61, 0, 33.69); // 2,0,3
+	p1 -= p2; // -1,0,-2
+	EXPECT_NEAR(2.24, p1.getR(), 0.01);
+	EXPECT_NEAR(180 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(153.43 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorPointsOnAxialPlaneYZ)
+{
+	Point p1(1.41, 90, 45); // 0,1,1
+	Point p2(2.24, 270, 116.57); // 0,-2,-1
+	p1 -= p2; // 0,3,2
+	EXPECT_NEAR(3.61, p1.getR(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(56.31 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorPointsInDifferentOctants)
+{
+	Point p1(1.73, 45, 54.74); // 1,1,1
+	Point p2(2.45, 243.43, 65.91); // -1,-2,1
+	p1 -= p2; // 2,3,0
+	EXPECT_NEAR(3.61, p1.getR(), 0.01);
+	EXPECT_NEAR(56.31 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorPointOnAxisXAndTheOtherOnAxisY)
+{
+	Point p1(1, 0, 90); // 1,0,0
+	Point p2(1, 270, 90); // 0,-1,0
+	p1 -= p2; // 1,1,0
+	EXPECT_NEAR(1.41, p1.getR(), 0.01);
+	EXPECT_NEAR(45 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorPointOnAxisXAndTheOtherOnAxisZ)
+{
+	Point p1(1, 0, 90); // 1,0,0
+	Point p2(2, 0, 180); // 0,0,-2
+	p1 -= p2; // 1,0,-2
+	EXPECT_NEAR(2.24, p1.getR(), 0.01);
+	EXPECT_NEAR(0 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(26.57 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorPointOnAxisYAndTheOtherOnAxisZ)
+{
+	Point p1(1, 90, 90); // 0,1,0
+	Point p2(2, 0, 0); // 0,0,2
+	p1 -= p2; // 0,1,-2
+	EXPECT_NEAR(2.24, p1.getR(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(153.43 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorDefaultPoints)
+{
+	Point p1; 
+	Point p2; 
+	p1 -= p2; 
+	EXPECT_NEAR(0, p1.getR(), 0.01);
+	EXPECT_NEAR(0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorOnePointIsDefault)
+{
+	Point p1; 
+	Point p2(1.73, 225, 125.36); // -1,-1,-1
+	p1 -= p2; // 1,1,1
+	EXPECT_NEAR(1.73, p1.getR(), 0.01);
+	EXPECT_NEAR(45 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(54.74 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractAndAssignOperatorSubstractedPointIsDefault)
+{
+	Point p1(1.73, 225, 125.36); // -1,-1,-1
+	Point p2;
+	p1 -= p2; // 1,1,1
+	EXPECT_NEAR(1.73, p1.getR(), 0.01);
+	EXPECT_NEAR(225 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(125.36 * PI / 180.0, p1.getTheta(), 0.01);
+}
