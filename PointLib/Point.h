@@ -4,6 +4,9 @@
 class Point
 {
 private:
+	// r is a radius from the origin of coordinate system
+	// phi is an azimuthal angle
+	// theta is a zenithal angle
 	double r;
 	double phi;
 	double theta;
@@ -19,6 +22,8 @@ public:
 	double* convertingSphericalToCartesianCoordinates() const noexcept;
 	Point operator+(Point const& p) const noexcept;
 	Point operator-(Point const& p) const noexcept;
+	void operator+=(Point const& p) noexcept;
+	void operator-=(Point const& p) noexcept;
 
 	double distance() const noexcept;
 	double distance(Point const& p) const noexcept;
@@ -27,9 +32,6 @@ public:
 	Point middleOfSegment(Point const& p) const noexcept;
 
 	void operator*(double const& v) noexcept;
-
-	void operator+=(Point const& p) noexcept;
-	void operator-=(Point const& p) noexcept;
 
 	bool operator==(Point const& p) const noexcept;
 	bool operator!=(Point const& p) const noexcept;
