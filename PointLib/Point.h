@@ -33,7 +33,7 @@ public:
 	bool operator==(Point const& p) const noexcept;
 	bool operator!=(Point const& p) const noexcept;
 
-	friend std::ostream& operator<< (std::ostream& os, Point const& p);
-	friend std::istream& operator>> (std::istream& is, Point& p);
+	friend std::ostream& operator<<(std::ostream& os, Point const& p);
+	friend std::istream& operator>>(std::istream& is, Point& p);
 };
 

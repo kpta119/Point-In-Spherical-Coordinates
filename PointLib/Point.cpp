@@ -34,7 +34,7 @@ double Point::countAngleToPositiveAxisX(double x, double y) noexcept
 	double angle_cosinus = scalar_product / length_of_vector;
 	double angle = 0;
 
-	if ((x <= 0 && y <= 0) || (x >= 0 && y < 0))
+	if ((x < -1e-6 && y < -1e-6) || (x > 1e-6 && y < -1e-6))
 	{
 		angle = 2*PI - acos(angle_cosinus);
 	}
@@ -133,13 +133,7 @@ void Point::operator-=(Point const& p) noexcept
 
 double Point::distance() const noexcept
 {
-	double* cartesian = convertingSphericalToCartesianCoordinates();
-	double x = *cartesian;
-	double y = *(cartesian + 1);
-	double z = *(cartesian + 2);
-	double distance = sqrt(x * x + y * y + z * z);
-	delete[] cartesian;
-	return distance;
+	return r;
 }
 
 double Point::distance(Point const& p) const noexcept

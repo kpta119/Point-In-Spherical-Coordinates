@@ -413,6 +413,78 @@ TEST(TestPointAddition, AddAndAssignOperatorTheSamePointsOnAxialPlaneYZ)
 	EXPECT_NEAR(45*PI/180.0, p1.getTheta(), 0.01);
 }
 
+TEST(TestPointAddition, AddOperatorTheSamePointsOnAxialPlaneYZ)
+{
+	Point p1(1.41, 90, 45); // 0,1,1
+	Point p2(1.41, 90, 45); // 0,1,1
+	Point p3 = p1 + p2; // 0,2,2
+	EXPECT_NEAR(2.82, p3.getR(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(45 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddOperatorOppositePoints)
+{
+	Point p1(1.73, 45, 54.74); // 1,1,1
+	Point p2(1.73, 225, 125.26); // -1,-1,-1
+	Point p3 = p1 + p2; // 0,0,0
+	EXPECT_NEAR(0, p3.getR(), 0.01);
+	EXPECT_NEAR(0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddOperatorPointIntheNorthAndTheOtherInTheSouth)
+{
+	Point p1(2.45, 45, 35.26); // 1,1,2
+	Point p2(3.46, 225, 125.26); // -2,-2,-2
+	Point p3 = p1 + p2; // 1,1,0
+	EXPECT_NEAR(1.41, p3.getR(), 0.01);
+	EXPECT_NEAR(225 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(PI / 2, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddOperatorPointIntheEastAndPointIntheWest)
+{
+	Point p1(2.45, 45, 35.26); // 1,1,2
+	Point p2(3.74, 243.43, 36.7); // -1,-2,3
+	Point p3 = p1 + p2; // 0,-1,5
+	EXPECT_NEAR(5.1, p3.getR(), 0.01);
+	EXPECT_NEAR(270 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(11.31 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddOperatorPointOnAxisXAndTheOtherOnAxisZ)
+{
+	Point p1(1, 0, 90); // 1,0,0
+	Point p2(3, 0, 0); // 0,0,3
+	Point p3 = p1 + p2; // 1,0,3
+	EXPECT_NEAR(3.16, p3.getR(), 0.01);
+	EXPECT_NEAR(0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(18.43 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+
+TEST(TestPointAddition, AddOperatorPointOnAxisYAndTheOtherPointOnAxisZ)
+{
+	Point p1(1, 90, 90); // 0,1,0
+	Point p2(3, 0, 0); // 0,0,3
+	Point p3 = p1 + p2; // 0,1,3
+	EXPECT_NEAR(3.16, p3.getR(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(18.43 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointAddition, AddOperatorPointInDifferentOctants)
+{
+	Point p1(3.74, 303.69, 74.5); // 2,-3,1
+	Point p2(3.74, 116.57, 36.7); // -1,2,3
+	Point p3 = p1 + p2; // 1,-1,4
+	EXPECT_NEAR(4.24, p3.getR(), 0.01);
+	EXPECT_NEAR(315 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(19.47 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+
 TEST(TestPointSubstraction, SubstractAndAssignOperatorTheSamePoints)
 {
 	Point p1(1.73, 45, 54.74); // 1,1,1
@@ -532,3 +604,146 @@ TEST(TestPointSubstraction, SubstractAndAssignOperatorSubstractedPointIsDefault)
 	EXPECT_NEAR(225 * PI / 180.0, p1.getPhi(), 0.01);
 	EXPECT_NEAR(125.36 * PI / 180.0, p1.getTheta(), 0.01);
 }
+
+TEST(TestPointSubstraction, SubstractOperatorOppositePoints)
+{
+	Point p1(1.73, 225, 125.36); // -1,-1,-1
+	Point p2(1.73, 45, 54.74); // 1,1,1
+	Point p3 = p1 - p2; // 1,1,1
+	EXPECT_NEAR(3.46, p3.getR(), 0.01);
+	EXPECT_NEAR(225 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(125.36 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractOperatorTheSamePoints)
+{
+	Point p1(1.73, 45, 54.74); // 1,1,1
+	Point p2(1.73, 45, 54.74); // 1,1,1
+	Point p3 = p1 - p2; // 1,1,1
+	EXPECT_NEAR(0, p3.getR(), 0.01);
+	EXPECT_NEAR(0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractOperatorOnePointIntheNorthAndTheOtherIntheSouth)
+{
+	Point p1(4.12, 45, 43.31); // 2,2,3
+	Point p2(4.24,45,160.53); // 1,1,-4
+	Point p3 = p1 - p2; // 1,1,7
+	EXPECT_NEAR(7.14, p3.getR(), 0.01);
+	EXPECT_NEAR(45 * PI /180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(11.42 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractOperatorOnePointIntheEastAndTheOtherIntheWest)
+{
+	Point p1(3, 315, 70.53); // 2,-2,1
+	Point p2(2.45, 45, 144.74); // 1,1,-2
+	Point p3 = p1 - p2; // 1,-3,3
+	EXPECT_NEAR(4.36, p3.getR(), 0.01);
+	EXPECT_NEAR(288.43 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(46.51 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractOperatorOneBothPointsOnAxisX)
+{
+	Point p1(2, 0, 90); // 2,0,0
+	Point p2(3, 180, 90); // -3,0,0
+	Point p3 = p1 - p2; // 5,0,0
+	EXPECT_NEAR(5, p3.getR(), 0.01);
+	EXPECT_NEAR(0 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractOperatorOneBothPointsOnAxisY)
+{
+	Point p1(1, 90, 90); // 0,1,0
+	Point p2(2, 270, 90); // 0,-2,0
+	Point p3 = p1 - p2; // 0,3,0
+	EXPECT_NEAR(3, p3.getR(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+TEST(TestPointSubstraction, SubstractOperatorOneBothPointsOnAxisZ)
+{
+	Point p1(1, 0, 0); // 0,0,1
+	Point p2(2, 0, 0); // 0,0,2
+	Point p3 = p1 - p2; // 0,0,-1
+	EXPECT_NEAR(1, p3.getR(), 0.01);
+	EXPECT_NEAR(0 * PI / 180.0, p3.getPhi(), 0.01);
+	EXPECT_NEAR(180 * PI / 180.0, p3.getTheta(), 0.01);
+}
+
+
+TEST(TestPointDistance, CountDistanceOnePointDefaultPoint)
+{
+	Point p1;
+	EXPECT_NEAR(0, p1.distance(), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceOnePointOnAxisX)
+{
+	Point p1(2,0,90); //2,0,0
+	EXPECT_NEAR(2, p1.distance(), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceOnePointOnAxisY)
+{
+	Point p1(2, 90, 90); //0,2,0
+	EXPECT_NEAR(2, p1.distance(), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceOnePointOnAxisZ)
+{
+	Point p1(2, 0, 0); //0,0,2
+	EXPECT_NEAR(2, p1.distance(), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceOnePointIntheNorth)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	EXPECT_NEAR(2.45, p1.distance(), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceOnePointIntheSouth)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	EXPECT_NEAR(2.45, p1.distance(), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsOppositePoints)
+{
+	Point p1(1.73, 45, 54.74); //1,1,1
+	Point p2(1.73,225,125.36); //-1,-1,-1
+	EXPECT_NEAR(3.46, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsTheSamePoints)
+{
+	Point p1(1.73, 45, 54.74); //1,1,1
+	Point p2(1.73, 45, 54.74); //1,1,1
+	EXPECT_NEAR(0, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsBothPointsOnAxisX)
+{
+	Point p1(1, 0, 90); //1,0,0
+	Point p2(2, 180, 90); //-2,0,0
+	EXPECT_NEAR(3, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsBothPointsOnAxisY)
+{
+	Point p1(1, 90, 90); //0,1,0
+	Point p2(3, 90, 90); //0,3,0
+	EXPECT_NEAR(2, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsBothPointsOnAxisZ)
+{
+	Point p1(1, 0, 0); //0,0,1
+	Point p2(4, 0, 180); //0,0,-4
+	EXPECT_NEAR(5, p1.distance(p2), 0.01);
+}
+
