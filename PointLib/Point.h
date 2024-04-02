@@ -24,14 +24,11 @@ public:
 	Point operator-(Point const& p) const noexcept;
 	void operator+=(Point const& p) noexcept;
 	void operator-=(Point const& p) noexcept;
+	void operator*(double const& v) noexcept;
 
 	double distance() const noexcept;
 	double distance(Point const& p) const noexcept;
-
-	Point middleOfSegment() const noexcept;
-	Point middleOfSegment(Point const& p) const noexcept;
-
-	void operator*(double const& v) noexcept;
+	double angleBetweenVectors(Point const& p) const noexcept;
 
 	bool operator==(Point const& p) const noexcept;
 	bool operator!=(Point const& p) const noexcept;

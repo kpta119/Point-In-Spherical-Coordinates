@@ -130,3 +130,30 @@ void Point::operator-=(Point const& p) noexcept
 	delete[] cartesian1; 
 	delete[] cartesian2;
 }
+
+double Point::distance() const noexcept
+{
+	double* cartesian = convertingSphericalToCartesianCoordinates();
+	double x = *cartesian;
+	double y = *(cartesian + 1);
+	double z = *(cartesian + 2);
+	double distance = sqrt(x * x + y * y + z * z);
+	delete[] cartesian;
+	return distance;
+}
+
+double Point::distance(Point const& p) const noexcept
+{
+	double* cartesian1 = convertingSphericalToCartesianCoordinates();
+	double* cartesian2 = p.convertingSphericalToCartesianCoordinates();
+	double x1 = *cartesian1;
+	double y1 = *(cartesian1 + 1);
+	double z1 = *(cartesian1 + 2);
+	double x2 = *cartesian2;
+	double y2 = *(cartesian2 + 1);
+	double z2 = *(cartesian2 + 2);
+	double distance = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2));
+	delete[] cartesian1;
+	delete[] cartesian2;
+	return distance;
+}
