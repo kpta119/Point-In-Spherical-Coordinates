@@ -24,7 +24,7 @@ public:
 	Point operator-(Point const& p) const noexcept;
 	void operator+=(Point const& p) noexcept;
 	void operator-=(Point const& p) noexcept;
-	void operator*(double const& v) noexcept;
+	void operator*(double const& scalar) noexcept;
 
 	double distance() const noexcept;
 	double distance(Point const& p) const noexcept;
@@ -32,7 +32,7 @@ public:
 
 	bool operator==(Point const& p) const noexcept;
 	bool operator!=(Point const& p) const noexcept;
-
+	
 	friend std::ostream& operator<<(std::ostream& os, Point const& p);
 	friend std::istream& operator>>(std::istream& is, Point& p);
 };

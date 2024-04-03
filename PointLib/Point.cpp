@@ -87,8 +87,6 @@ Point Point::operator-(Point const& p) const noexcept
 }
 
 
-
-
 void Point::operator+=(Point const& p) noexcept
 {	
 	double* cartesian1 = convertingSphericalToCartesianCoordinates();
@@ -151,3 +149,4 @@ double Point::distance(Point const& p) const noexcept
 	delete[] cartesian2;
 	return distance;
 }
+

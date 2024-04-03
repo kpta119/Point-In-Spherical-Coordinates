@@ -747,3 +747,58 @@ TEST(TestPointDistance, CountDistanceTwoPointsBothPointsOnAxisZ)
 	EXPECT_NEAR(5, p1.distance(p2), 0.01);
 }
 
+TEST(TestPointDistance, CountDistanceTwoPointsOnePointOnAxisXTheOtherPointInTheNorth)
+{
+	Point p1(1, 0, 90); //1,0,0
+	Point p2(2.45, 45, 35.26); //1,1,2
+	EXPECT_NEAR(2.24, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsOnePointOnAxisYTheOtherPointInTheNorth)
+{
+	Point p1(1, 90, 90); //0,1,0
+	Point p2(2.45, 45, 35.26); //1,1,2
+	EXPECT_NEAR(2.24, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsOnePointOnAxisZTheOtherPointInTheNorth)
+{
+	Point p1(1, 0, 0); //0,0,1
+	Point p2(2.45, 45, 35.26); //1,1,2
+	EXPECT_NEAR(1.73, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsOnePointOnAxisXTheOtherPointInTheSouth)
+{
+	Point p1(1, 0, 90); //1,0,0
+	Point p2(1.73, 225, 125.36); //-1,-1,-1
+	EXPECT_NEAR(2.45, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsOnePointOnAxisYTheOtherPointInTheSouth)
+{
+	Point p1(1, 90, 90); //0,1,0
+	Point p2(1.73, 225, 125.36); //-1,-1,-1
+	EXPECT_NEAR(2.45, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsOnePointOnAxisZTheOtherPointInTheSouth)
+{
+	Point p1(1, 0, 0); //0,0,1
+	Point p2(1.73, 225, 125.36); //-1,-1,-1
+	EXPECT_NEAR(2.45, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsOnePointInTheNorthTheOtherPointInTheSouth)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	Point p2(1.73, 225, 125.36); //-1,-1,-1
+	EXPECT_NEAR(4.12, p1.distance(p2), 0.01);
+}
+
+TEST(TestPointDistance, CountDistanceTwoPointsOnePointInTheEastTheOtherPointInTheWest)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	Point p2(3.74, 243.43, 36.7); //-1,-2,3
+	EXPECT_NEAR(3.74, p1.distance(p2), 0.01);
+}
