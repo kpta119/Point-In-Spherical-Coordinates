@@ -11,6 +11,7 @@ private:
 	double phi;
 	double theta;
 	double countAngleToPositiveAxisX(double x, double y) noexcept;
+	void init(double r, double phi, double theta);
 public:
 	Point(double r = 0.0, double phi = 0.0, double theta = 0.0);
 	~Point() = default;
@@ -24,7 +25,9 @@ public:
 	Point operator-(Point const& p) const noexcept;
 	void operator+=(Point const& p) noexcept;
 	void operator-=(Point const& p) noexcept;
-	void operator*(double const& scalar) noexcept;
+	Point operator*(double const& scalar) const noexcept;
+	void operator*=(double const& scalar) noexcept;
+
 
 	double distance() const noexcept;
 	double distance(Point const& p) const noexcept;

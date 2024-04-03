@@ -5,6 +5,12 @@
 
 Point::Point(double r, double phi, double theta)
 {
+	init(r, phi, theta);
+}
+
+
+void Point::init(double r, double phi, double theta)
+{
 	if (r < 0)
 	{
 		throw std::invalid_argument("Radius (r) must be equal to or greater than 0.");
@@ -150,3 +156,85 @@ double Point::distance(Point const& p) const noexcept
 	return distance;
 }
 
+Point Point::operator*(double const& scalar) const noexcept
+{
+	Point resPoint(*this);
+	resPoint *= scalar;
+	return resPoint;
+}
+
+void Point::operator*=(double const& scalar) noexcept
+{	
+	if (scalar > 1e-6)
+	{
+		r *= scalar;
+	}
+	else if (scalar < -1e-6)
+	{
+		r *= scalar;
+		phi = fmod(phi + PI,2 * PI);
+		theta = fmod(theta - PI, PI);
+	}
+	else
+	{
+		r = 0;
+		phi = 0;
+		theta = 0;
+	}
+	
+}
+
+
+double Point::angleBetweenVectors(Point const& p) const noexcept
+{
+	double* cartesian1 = convertingSphericalToCartesianCoordinates();
+	double* cartesian2 = p.convertingSphericalToCartesianCoordinates();
+	double x1 = *cartesian1;
+	double y1 = *(cartesian1 + 1);
+	double z1 = *(cartesian1 + 2);
+	double x2 = *cartesian2;
+	double y2 = *(cartesian2 + 1);
+	double z2 = *(cartesian2 + 2);
+	double scalar_product = x1 * x2 + y1 * y2 + z1 * z2;
+	double length_of_vector1 = sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+	double length_of_vector2 = sqrt(x2 * x2 + y2 * y2 + z2 * z2);
+	double angle_cosinus = scalar_product / (length_of_vector1 * length_of_vector2);
+	delete[] cartesian1;
+	delete[] cartesian2;
+	return acos(angle_cosinus);
+}
+
+
+bool Point::operator==(Point const& p) const noexcept
+{
+	return (abs(r - p.getR()) < 1e-6 && abs(phi - p.getPhi()) < 1e-6 && abs(theta - p.getTheta()) < 1e-6);
+}
+
+bool Point::operator!=(Point const& p) const noexcept
+{
+	return !(*this == p);
+}
+
+
+std::ostream& operator<<(std::ostream& os, Point const& p)
+{
+	os << p.getR() << ', ' << p.getPhi() * PI/180 << ',' << p.getTheta() * PI/180;
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, Point& p)
+{
+	is >> p.r;
+	char c1 = is.get();
+	if (c1 == ',')
+	{
+		is >> p.phi;
+		c1 = is.get();
+		if (c1 == ',')
+		{
+			is >> p.theta;
+		}
+	}
+	p.init(p.r, p.phi, p.theta);
+	return is;
+}
