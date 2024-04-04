@@ -21,7 +21,7 @@ public:
 	double getPhi() const;
 	double getTheta() const;
 
-	double* convertingSphericalToCartesianCoordinates() const noexcept;
+
 	Point operator+(Point const& p) const noexcept;
 	Point operator-(Point const& p) const noexcept;
 	void operator+=(Point const& p) noexcept;

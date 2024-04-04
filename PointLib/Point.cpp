@@ -1,5 +1,6 @@
 #include "Point.h"
 #include "Constans.h"
+#include "CartesianPoint.h"
 #include <iostream>
 #include <cmath>
 #include <iomanip>
@@ -68,14 +69,7 @@ void Point::convertingNewCartesianCoordinatesToSpherical(double x, double y, dou
 	}
 }
 
-double* Point::convertingSphericalToCartesianCoordinates() const noexcept
-{	
-	double *cartesian = new double[3];
-	cartesian[0] = r * sin(theta) * cos(phi);
-	cartesian[1] = r * sin(theta) * sin(phi);
-	cartesian[2] = r * cos(theta);
-	return cartesian;
-}
+
 
 double Point::getR() const
 {
@@ -111,26 +105,22 @@ Point Point::operator-(Point const& p) const noexcept
 
 void Point::operator+=(Point const& p) noexcept
 {	
-	double* cartesian1 = convertingSphericalToCartesianCoordinates();
-	double* cartesian2 = p.convertingSphericalToCartesianCoordinates();
-	double newX = cartesian1[0] + cartesian2[0];
-	double newY = cartesian1[1] + cartesian2[1];
-	double newZ = cartesian1[2] + cartesian2[2];
+	CartesianPoint cartesian1(r, phi, theta);
+	CartesianPoint cartesian2(p.getR(), p.getPhi(), p.getTheta());
+	double newX = cartesian1.getX() + cartesian2.getX();
+	double newY = cartesian1.getY() + cartesian2.getY();
+	double newZ = cartesian1.getZ() + cartesian2.getZ();
 	convertingNewCartesianCoordinatesToSpherical(newX, newY, newZ);
-	delete[] cartesian1; 
-	delete[] cartesian2;
 }
 
 void Point::operator-=(Point const& p) noexcept
 {
-	double* cartesian1 = convertingSphericalToCartesianCoordinates();
-	double* cartesian2 = p.convertingSphericalToCartesianCoordinates();
-	double newX = cartesian1[0] - cartesian2[0];
-	double newY = cartesian1[1] - cartesian2[1];
-	double newZ = cartesian1[2] - cartesian2[2];
+	CartesianPoint cartesian1(r, phi, theta);
+	CartesianPoint cartesian2(p.getR(), p.getPhi(), p.getTheta());
+	double newX = cartesian1.getX() - cartesian2.getX();
+	double newY = cartesian1.getY() - cartesian2.getY();
+	double newZ = cartesian1.getZ() - cartesian2.getZ();
 	convertingNewCartesianCoordinatesToSpherical(newX, newY, newZ);
-	delete[] cartesian1; 
-	delete[] cartesian2;
 }
 
 double Point::distance() const noexcept
@@ -140,17 +130,11 @@ double Point::distance() const noexcept
 
 double Point::distance(Point const& p) const noexcept
 {
-	double* cartesian1 = convertingSphericalToCartesianCoordinates();
-	double* cartesian2 = p.convertingSphericalToCartesianCoordinates();
-	double x1 = *cartesian1;
-	double y1 = *(cartesian1 + 1);
-	double z1 = *(cartesian1 + 2);
-	double x2 = *cartesian2;
-	double y2 = *(cartesian2 + 1);
-	double z2 = *(cartesian2 + 2);
-	double distance = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2));
-	delete[] cartesian1;
-	delete[] cartesian2;
+	CartesianPoint cartesian1(r, phi, theta);
+	CartesianPoint cartesian2(p.getR(), p.getPhi(), p.getTheta());
+	double distance = sqrt((cartesian1.getX()-cartesian2.getX()) * (cartesian1.getX() - cartesian2.getX()) + 
+		(cartesian1.getY()-cartesian2.getY()) * (cartesian1.getY() - cartesian2.getY()) +
+	(cartesian1.getZ()-cartesian2.getZ()) * (cartesian1.getZ() - cartesian2.getZ()));
 	return distance;
 }
 
@@ -184,20 +168,12 @@ void Point::operator*=(double const& scalar) noexcept
 
 double Point::angleBetweenVectors(Point const& p) const noexcept
 {
-	double* cartesian1 = convertingSphericalToCartesianCoordinates();
-	double* cartesian2 = p.convertingSphericalToCartesianCoordinates();
-	double x1 = *cartesian1;
-	double y1 = *(cartesian1 + 1);
-	double z1 = *(cartesian1 + 2);
-	double x2 = *cartesian2;
-	double y2 = *(cartesian2 + 1);
-	double z2 = *(cartesian2 + 2);
-	double scalar_product = x1 * x2 + y1 * y2 + z1 * z2;
-	double length_of_vector1 = sqrt(x1 * x1 + y1 * y1 + z1 * z1);
-	double length_of_vector2 = sqrt(x2 * x2 + y2 * y2 + z2 * z2);
+	CartesianPoint cartesian1(r, phi, theta);
+	CartesianPoint cartesian2(p.getR(), p.getPhi(), p.getTheta());
+	double scalar_product = cartesian1.getX() * cartesian2.getX() + cartesian1.getY() * cartesian2.getY() + cartesian1.getZ() * cartesian2.getZ();
+	double length_of_vector1 = sqrt(cartesian1.getX() * cartesian1.getX() + cartesian1.getY() * cartesian1.getY() + cartesian1.getZ() * cartesian1.getZ());
+	double length_of_vector2 = sqrt(cartesian2.getX() * cartesian2.getX() + cartesian2.getY() * cartesian2.getY() + cartesian2.getZ() * cartesian2.getZ());
 	double angle_cosinus = scalar_product / (length_of_vector1 * length_of_vector2);
-	delete[] cartesian1;
-	delete[] cartesian2;
 	return acos(angle_cosinus) * 180 / PI;
 }
 

@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CartesianPoint.h" />
     <ClInclude Include="Constans.h" />
     <ClInclude Include="Point.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CartesianPoint.cpp" />
     <ClCompile Include="Point.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
