@@ -70,7 +70,6 @@ void Point::convertingNewCartesianCoordinatesToSpherical(double x, double y, dou
 }
 
 
-
 double Point::getR() const
 {
 	return r;
@@ -153,9 +152,9 @@ void Point::operator*=(double const& scalar) noexcept
 	}
 	else if (scalar < -1e-6)
 	{
-		r *= scalar;
+		r *= -scalar;
 		phi = fmod(phi + PI,2 * PI);
-		theta = fmod(theta - PI, PI);
+		theta = PI - theta;
 	}
 	else
 	{
@@ -206,7 +205,6 @@ std::istream& operator>>(std::istream& is, Point& p)
 		is.unget();
 		is.setstate(std::ios::failbit);
 		return is;
-
 	}
 	is >> p.phi;
 	c = is.get();

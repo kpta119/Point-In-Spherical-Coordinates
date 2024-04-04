@@ -3,6 +3,7 @@
 #include <cmath>
 #include "gtest/gtest.h"
 #include "../PointLib/CartesianPoint.h"
+
 TEST(TestPointConstructor, ConstructorWithGivenCoordinates)
 {
 	Point p1(1.0, 90.0, 90.0);
@@ -826,4 +827,170 @@ TEST(TestPointMultiplication, MultiplyAndAssignOperatorPointIntheSouth)
 	EXPECT_NEAR(4.9, p1.getR(), 0.01);
 	EXPECT_NEAR(45 * PI / 180.0, p1.getPhi(), 0.01);
 	EXPECT_NEAR(144.74 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointMultiplication, MultiplyAndAssignOperatorNegativeScalar)
+{
+	Point p1(2.45, 45, 144.74); //1,1,-2
+	p1 *= -2; //-2,-2,4
+	EXPECT_NEAR(4.9, p1.getR(), 0.01);
+	EXPECT_NEAR(225 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(35.26 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointMultiplication, MultiplyAndAssignOperatorPointIntheNorthAndTheOtherInTheSouth)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	Point p2(3.46, 225, 125.26); //-2,-2,-2
+	p1 *= 2; //2,2,4
+	p2 *= 2; //-4,-4,-4
+	EXPECT_NEAR(4.9, p1.getR(), 0.01);
+	EXPECT_NEAR(45 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(35.26 * PI / 180.0, p1.getTheta(), 0.01);
+	EXPECT_NEAR(6.92, p2.getR(), 0.01);
+	EXPECT_NEAR(225 * PI / 180.0, p2.getPhi(), 0.01);
+	EXPECT_NEAR(125.26 * PI / 180.0, p2.getTheta(), 0.01);
+}
+
+TEST(TestPointMultiplication, MultiplyAndAssignOperatorNegativeScalarPointOnAxisX)
+{
+	Point p1(1,0,90); //1,0,0
+	p1 *= -2; //-2,0,0
+	EXPECT_NEAR(2, p1.getR(), 0.01);
+	EXPECT_NEAR(180 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointMultiplication, MultiplyAndAssignOperatorNegativeScalarPointOnAxisY)
+{
+	Point p1(1, 90, 90); //0,1,0
+	p1 *= -2; //0,-2,0
+	EXPECT_NEAR(2, p1.getR(), 0.01);
+	EXPECT_NEAR(270 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(90 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointMultiplication, MultiplyAndAssignOperatorNegativeScalarPointOnAxisZ)
+{
+	Point p1(1, 0, 0); //0,0,1
+	p1 *= -2; //0,0,-2
+	EXPECT_NEAR(2, p1.getR(), 0.01);
+	EXPECT_NEAR(180 * PI /180, p1.getPhi(), 0.01);
+	EXPECT_NEAR(180 * PI / 180, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointMultiplication, MultiplyAndAssignOperatorNegativeScalarPointIntheNorth)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	p1 *= -2; //-2,-2,-4
+	EXPECT_NEAR(4.9, p1.getR(), 0.01);
+	EXPECT_NEAR(225 * PI / 180.0, p1.getPhi(), 0.01);
+	EXPECT_NEAR(144.74 * PI / 180.0, p1.getTheta(), 0.01);
+}
+
+TEST(TestPointMultiplication, MultiplyOperatorPointInTheSouth)
+{
+	Point p1(2.45, 45, 144.74); //1,1,-2
+	Point p2 = p1 * 2; //2,2,-4
+	EXPECT_NEAR(4.9, p2.getR(), 0.01);
+	EXPECT_NEAR(45 * PI / 180.0, p2.getPhi(), 0.01);
+	EXPECT_NEAR(144.74 * PI / 180.0, p2.getTheta(), 0.01);
+}
+
+TEST(TestPointMultiplication, MultiplyOperatorNegativeScalar)
+{
+	Point p1(2.45, 45, 144.74); //1,1,-2
+	Point p2 = p1 * ( -2); //-2,-2,4
+	EXPECT_NEAR(4.9, p2.getR(), 0.01);
+	EXPECT_NEAR(225 * PI / 180.0, p2.getPhi(), 0.01);
+	EXPECT_NEAR(35.26 * PI / 180.0, p2.getTheta(), 0.01);
+}
+
+TEST(TestPointMultiplication, MultiplyOperatorPointIntheNorthAndTheOtherInTheSouth)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	Point p2 = p1 * 2; //2,2,4
+	EXPECT_NEAR(4.9, p2.getR(), 0.01);
+	EXPECT_NEAR(45 * PI / 180.0, p2.getPhi(), 0.01);
+	EXPECT_NEAR(35.26 * PI / 180.0, p2.getTheta(), 0.01);
+}
+
+TEST(TestAngleBetweenPoints, AngleBetweenPointsMethodPointOnAxiXAndY)
+{
+	Point p1(1, 0, 90); //1,0,0
+	Point p2(1, 90, 90); //0,1,0
+	EXPECT_NEAR(90, p1.angleBetweenVectors(p2), 0.01);
+}
+
+TEST(TestAngleBetweenPoints, AngleBetweenPointsMethodPointOnAxiXAndZ)
+{
+	Point p1(1, 0, 90); //1,0,0
+	Point p2(1, 0, 0); //0,0,1
+	EXPECT_NEAR(90, p1.angleBetweenVectors(p2), 0.01);
+}
+
+TEST(TestAngleBetweenPoints, AngleBetweenPointsMethodPointOnAxiYAndZ)
+{
+	Point p1(1, 90, 90); //0,1,0
+	Point p2(1, 0, 0); //0,0,1
+	EXPECT_NEAR(90, p1.angleBetweenVectors(p2), 0.01);
+}
+
+TEST(TestAngleBetweenPoints, AngleBetweenPointsMethodPointIntheNorthAndTheOtherInTheSouth)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	Point p2(3.46, 225, 125.26); //-2,-2,-2
+	EXPECT_NEAR(160.53, p1.angleBetweenVectors(p2), 0.01);
+}
+
+TEST(TestAngleBetweenPoints, AngleBetweenPointsMethodPointIntheNorthAndTheOtherInTheEast)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	Point p2(3.74, 243.43, 36.7); //-1,-2,3
+	EXPECT_NEAR(70.89, p1.angleBetweenVectors(p2), 0.01);
+}
+
+TEST(TestAngleBetweenPoints, AngleBetweenPointsMethodPointIntheNorthAndTheOtherInTheWest)
+{
+	Point p1(2.45, 45, 35.26); //1,1,2
+	Point p2(3.74, 26.57, 36.7); //2,1,3
+	EXPECT_NEAR(10.89, p1.angleBetweenVectors(p2), 0.01);
+}
+
+TEST(TestAngleBetweenPoints, AngleBetweenPointsMethodPointInTheSouthAndTheOtherInTheEast)
+{
+	Point p1(2.45, 45, 144.74); //1,1,-2
+	Point p2(3.74, 243.43, 36.7); //-1,-2,3
+	EXPECT_NEAR(169.11, p1.angleBetweenVectors(p2), 0.01);
+}
+
+TEST(TestAngleBetweenPoints, AngleBetweenPointsMethodPointInTheSouthAndTheOtherInTheWest)
+{
+	Point p1(2.45, 45, 144.74); //1,1,-2
+	Point p2(3.74, 26.57, 36.7); //2,1,3
+	EXPECT_NEAR(109.11, p1.angleBetweenVectors(p2), 0.01);
+}
+
+TEST(PointTestInputOutput, OutputPointWithDefaultCoordinates)
+{
+	Point p;
+	std::ostringstream stream;
+	stream << p;
+	EXPECT_EQ("(0.00, 0.00, 0.00)", stream.str());
+}
+
+TEST(PointTestInputOutput, OutputPointWithCoordinates)
+{
+	Point p(2.45, 45, 35.26); //1,1,2
+	std::ostringstream stream;
+	stream << p;
+	EXPECT_EQ("(2.45, 45.00, 35.26)", stream.str());
+}
+
+TEST(PointTestInputOutput, OutputPointWithAnotherCoordinates)
+{
+	Point p(3.74, 26.57, 36.7); //2,1,3
+	std::ostringstream stream;
+	stream << p;
+	EXPECT_EQ("(3.74, 26.57, 36.70)", stream.str());
 }
