@@ -4,11 +4,6 @@
 #include <cmath>
 #include <iomanip>
 
-Point::Point(double r, double phi, double theta)
-{
-	init(r, phi, theta);
-}
-
 
 void Point::init(double r, double phi, double theta)
 {
@@ -24,11 +19,17 @@ void Point::init(double r, double phi, double theta)
 	{
 		throw std::invalid_argument("Zenithal angle must be in the range[0, 180]");
 	}
-	
+
 	this->r = r;
 	this->phi = phi * (PI / 180);
 	this->theta = theta * (PI / 180);
 }
+
+Point::Point(double r, double phi, double theta)
+{
+	init(r, phi, theta);
+}
+
 
 double Point::countAngleToPositiveAxisX(double x, double y) noexcept
 {
@@ -51,6 +52,20 @@ double Point::countAngleToPositiveAxisX(double x, double y) noexcept
 	}
 	return angle;
 
+}
+
+void Point::convertingNewCartesianCoordinatesToSpherical(double x, double y, double z) noexcept
+{
+	r = sqrt(x * x + y * y + z * z);
+	phi = countAngleToPositiveAxisX(x, y);
+	if (r - 0.0 >= 1e-6)
+	{
+		theta = acos(z / r);
+	}
+	else
+	{
+		theta = 0.0;
+	}
 }
 
 double* Point::convertingSphericalToCartesianCoordinates() const noexcept
@@ -101,16 +116,7 @@ void Point::operator+=(Point const& p) noexcept
 	double newX = cartesian1[0] + cartesian2[0];
 	double newY = cartesian1[1] + cartesian2[1];
 	double newZ = cartesian1[2] + cartesian2[2];
-	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
-	phi = countAngleToPositiveAxisX(newX, newY);
-	if (r-0.0 >= 1e-6)
-	{
-		theta = acos(newZ / r);
-	}
-	else
-	{
-		theta = 0.0;
-	}
+	convertingNewCartesianCoordinatesToSpherical(newX, newY, newZ);
 	delete[] cartesian1; 
 	delete[] cartesian2;
 }
@@ -122,16 +128,7 @@ void Point::operator-=(Point const& p) noexcept
 	double newX = cartesian1[0] - cartesian2[0];
 	double newY = cartesian1[1] - cartesian2[1];
 	double newZ = cartesian1[2] - cartesian2[2];
-	r = sqrt(pow(newX, 2) + pow(newY, 2) + pow(newZ, 2));
-	phi = countAngleToPositiveAxisX(newX, newY);
-	if (r - 0.0 >= 1e-6)
-	{
-		theta = acos(newZ / r);
-	}
-	else
-	{
-		theta = 0.0;
-	}
+	convertingNewCartesianCoordinatesToSpherical(newX, newY, newZ);
 	delete[] cartesian1; 
 	delete[] cartesian2;
 }
@@ -184,7 +181,6 @@ void Point::operator*=(double const& scalar) noexcept
 	}
 	
 }
-
 
 double Point::angleBetweenVectors(Point const& p) const noexcept
 {

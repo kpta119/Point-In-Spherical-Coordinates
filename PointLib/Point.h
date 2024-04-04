@@ -5,12 +5,13 @@ class Point
 {
 private:
 	// r is a radius from the origin of coordinate system
-	// phi is an azimuthal angle
-	// theta is a zenithal angle
+	// phi is an azimuthal angle (between point and positive axis X)
+	// theta is a zenithal angle (between point and positive axis Z)
 	double r;
 	double phi;
 	double theta;
 	double countAngleToPositiveAxisX(double x, double y) noexcept;
+	void convertingNewCartesianCoordinatesToSpherical(double x, double y, double z) noexcept;
 	void init(double r, double phi, double theta);
 public:
 	Point(double r = 0.0, double phi = 0.0, double theta = 0.0);
