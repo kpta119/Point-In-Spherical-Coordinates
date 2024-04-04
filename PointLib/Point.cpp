@@ -2,6 +2,7 @@
 #include "Constans.h"
 #include <iostream>
 #include <cmath>
+#include <iomanip>
 
 Point::Point(double r, double phi, double theta)
 {
@@ -201,7 +202,7 @@ double Point::angleBetweenVectors(Point const& p) const noexcept
 	double angle_cosinus = scalar_product / (length_of_vector1 * length_of_vector2);
 	delete[] cartesian1;
 	delete[] cartesian2;
-	return acos(angle_cosinus);
+	return acos(angle_cosinus) * 180 / PI;
 }
 
 
@@ -218,23 +219,32 @@ bool Point::operator!=(Point const& p) const noexcept
 
 std::ostream& operator<<(std::ostream& os, Point const& p)
 {
-	os << p.getR() << ', ' << p.getPhi() * PI/180 << ',' << p.getTheta() * PI/180;
+	os << std::fixed << "(" << std::setprecision(2) << p.getR() << ", "
+		<< std::setprecision(2) << p.getPhi() * 180 / PI << ", "
+		<< std::setprecision(2) << p.getTheta() * 180 / PI << ")";
 	return os;
 }
 
 std::istream& operator>>(std::istream& is, Point& p)
 {
 	is >> p.r;
-	char c1 = is.get();
-	if (c1 == ',')
+	char c = is.get();
+	if (c != ',')
 	{
-		is >> p.phi;
-		c1 = is.get();
-		if (c1 == ',')
-		{
-			is >> p.theta;
-		}
+		is.unget();
+		is.setstate(std::ios::failbit);
+		return is;
+
 	}
+	is >> p.phi;
+	c = is.get();
+	if (c != ',')
+	{
+		is.unget();
+		is.setstate(std::ios::failbit);
+		return is;
+	}
+	is >> p.theta;
 	p.init(p.r, p.phi, p.theta);
 	return is;
 }
